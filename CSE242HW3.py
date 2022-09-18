@@ -33,37 +33,27 @@ class MerkleTree():
         else:
             return MerkleTree.find_merkle_root_hash(concatenated_hashes)
             
-    def hash_address_and_balance(address, balance):
+    def hash_address_and_balance(acct):
+        return MerkleTree.hash(acct)
         
-        # converts to type string just in case both the address and balance are all ints
-        balance = str(balance)
-        address = str(address)
-        hashed_concatenation = MerkleTree.hash(address + balance)
-        return hashed_concatenation
     
     def main():
 
-        addresses = []
-        balances = []
+        
         hashes = []
 
-        txtFile = input('Enter text file with accounts:')
-        with open(txtFile, 'r') as fp:
+        #txtFile = input('Enter text file with accounts:')
+        with open('4.txt', 'r') as fp:
             for line in fp:
                 x, y = line.replace('\n', '').split(' ')
-                addresses.append(x)
-                balances.append(y)
-        print(addresses)
-        print(balances)
-        
+                z = x + y
+                hash = MerkleTree.hash_address_and_balance(z)
+                hashes.append(hash)
+                
+        print(hashes)        
 
-        for x,y in zip(addresses, balances):
-            hashed_concatenation = MerkleTree.hash_address_and_balance(x, y)
-            hashes.append(hashed_concatenation)
+ 
 
-        print(hashes)
-        root_hash = MerkleTree.find_merkle_root_hash(hashes)
-        print ("Merkle tree root hash: %s"%(root_hash))
 
 
 if __name__ == "__main__":
