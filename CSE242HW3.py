@@ -12,13 +12,7 @@ class MerkleTree():
     def hash(val):
         return hashlib.sha256(val.encode("utf-8")).hexdigest()
 
-    def find_merkle_root_hash(self, node_hashes):
-
-        # nodes = []
-
-        # for h in node_hashes:
-            # nodes.append(h)
-
+    def find_merkle_root_hash(node_hashes):
         list_length = len(node_hashes)
 
         concatenated_hashes = []
@@ -38,9 +32,11 @@ class MerkleTree():
             return concatenated_hashes[0]
         # else, use recursion to repeatedly hash the concatenation of the hashes of the left and right child nodes for each level of the Merkle tree
         else:
-            return self.find_merkle_root_hash(concatenated_hashes)
+            return MerkleTree.find_merkle_root_hash(concatenated_hashes)
             
     def hash_address_and_balance(address, balance):
+        
+        # converts to type string just in case both the address and balance are all ints
         balance = str(balance)
         address = str(address)
         hashed_concatenation = MerkleTree.hash(address + balance)
@@ -63,13 +59,14 @@ class MerkleTree():
         print(balances)
         
 
-        # for i in range(len(addresses) - 1):
-        #     hashed_concatenation = MerkleTree.hash_address_and_balance(addresses[i], balances[i])
-        #     hashes.append(hashed_concatenation)
+          for x,y in zip(addresses, balances):
+            hashed_concatenation = MerkleTree.hash_address_and_balance(x, y)
+            hashes.append(hashed_concatenation)
 
-        # hash = MerkleTree()
-        # root_hash = hash.find_merkle_root_hash(hashes)
-        # print ("Merkle tree root hash: %s"%(root_hash))
+        print(hashes)
+        root_hash = MerkleTree.find_merkle_root_hash(hashes)
+        print ("Merkle tree root hash: %s"%(root_hash))
+
 
 if __name__ == "__main__":
     MerkleTree.main()
