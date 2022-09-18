@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # SHA-245 function source: https://onuratakan.medium.com/what-is-the-merkle-tree-with-python-example-cbb4513b8ad0#:~:text=What%20is%20the%20Merkle%20Tree%20%E2%80%94%20With%20Python,verification%20of%20the%20contents%20of%20large%20data%20structures.
 
 import hashlib
@@ -7,7 +8,7 @@ class MerkleTree():
     def __init__(self):
         pass
 
-    def hash(val: str)-> str:
+    def hash(val):
         return hashlib.sha256(val.encode("utf-8")).hexdigest()
 
     def find_merkle_root_hash(self, node_hashes):
@@ -38,7 +39,7 @@ class MerkleTree():
         else:
             return self.find_merkle_root_hash(concatenated_hashes)
             
-    def hash_address_and_balance(address: str, balance: int)-> str:
+    def hash_address_and_balance(address, balance):
         hashed_address = MerkleTree.hash(address)
         balance_as_string = str(balance)
         hashed_balance = MerkleTree.hash(balance_as_string)
@@ -49,6 +50,8 @@ class MerkleTree():
     def main():
 
         # need to read in the values from the text file for addresses and balances
+        txtFile = input('Enter text file with accounts:')
+        print('hello')
 
         addresses = [str]
         balances = [int]
@@ -61,3 +64,6 @@ class MerkleTree():
         hash = MerkleTree()
         root_hash = hash.find_merkle_root_hash(hashes)
         print ("Merkle tree root hash: %s"%(root_hash))
+
+if __name__ == "__main__":
+    MerkleTree.main()
