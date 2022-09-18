@@ -12,13 +12,7 @@ class MerkleTree():
     def hash(val):
         return hashlib.sha256(val.encode("utf-8")).hexdigest()
 
-    def find_merkle_root_hash(self, node_hashes):
-
-        # nodes = []
-
-        # for h in node_hashes:
-            # nodes.append(h)
-
+    def find_merkle_root_hash(node_hashes):
         list_length = len(node_hashes)
 
         concatenated_hashes = []
@@ -38,32 +32,35 @@ class MerkleTree():
             return concatenated_hashes[0]
         # else, use recursion to repeatedly hash the concatenation of the hashes of the left and right child nodes for each level of the Merkle tree
         else:
-            return self.find_merkle_root_hash(concatenated_hashes)
+            return MerkleTree.find_merkle_root_hash(concatenated_hashes)
             
     def hash_address_and_balance(address, balance):
+        
+        # converts to type string just in case both the address and balance are all ints
         balance = str(balance)
         address = str(address)
         hashed_concatenation = MerkleTree.hash(address + balance)
         return hashed_concatenation
     
     def main():
-
         # need to read in the values from the text file for addresses and balances
+
         txtFile = input('Enter text file with accounts:')
         with open(txtFile, 'r') as fp:
             content = fp.readline()
             print(content)
 
-        addresses = []
-        balances = []
-        hashes = []
 
-        for i in range(len(addresses) - 1):
-            hashed_concatenation = MerkleTree.hash_address_and_balance(addresses[i], balances[i])
+        addresses = ["fc91428771e2b031cd46b0478ce20a7af0b110d4","58hs7k39fyu3kp08ch46ssiid8f39c40lorgyiah", "4499ddyy7fj15dgfjvjkfirufhsk09857463hfhi", "6fi20slo60fyshebc84jd7sh63k0fs8djehfjvhe"]
+        balances = [1311994, 47827364, 3782910, 69283467]
+        hashes = []
+     
+        for x,y in zip(addresses, balances):
+            hashed_concatenation = MerkleTree.hash_address_and_balance(x, y)
             hashes.append(hashed_concatenation)
 
-        hash = MerkleTree()
-        root_hash = hash.find_merkle_root_hash(hashes)
+        print(hashes)
+        root_hash = MerkleTree.find_merkle_root_hash(hashes)
         print ("Merkle tree root hash: %s"%(root_hash))
 
 if __name__ == "__main__":
