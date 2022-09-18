@@ -59,7 +59,7 @@ class MerkleTree():
         print(balances)
         
 
-          for x,y in zip(addresses, balances):
+        for x,y in zip(addresses, balances):
             hashed_concatenation = MerkleTree.hash_address_and_balance(x, y)
             hashes.append(hashed_concatenation)
 
