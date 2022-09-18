@@ -2,6 +2,7 @@
 # SHA-245 function source: https://onuratakan.medium.com/what-is-the-merkle-tree-with-python-example-cbb4513b8ad0#:~:text=What%20is%20the%20Merkle%20Tree%20%E2%80%94%20With%20Python,verification%20of%20the%20contents%20of%20large%20data%20structures.
 
 import hashlib
+import os
 
 class MerkleTree():
 
@@ -43,7 +44,12 @@ class MerkleTree():
     
     def main():
         # need to read in the values from the text file for addresses and balances
-        #txtFile = input('Enter text file with accounts:')
+
+        txtFile = input('Enter text file with accounts:')
+        with open(txtFile, 'r') as fp:
+            content = fp.readline()
+            print(content)
+
 
         addresses = ["fc91428771e2b031cd46b0478ce20a7af0b110d4","58hs7k39fyu3kp08ch46ssiid8f39c40lorgyiah", "4499ddyy7fj15dgfjvjkfirufhsk09857463hfhi", "6fi20slo60fyshebc84jd7sh63k0fs8djehfjvhe"]
         balances = [1311994, 47827364, 3782910, 69283467]
