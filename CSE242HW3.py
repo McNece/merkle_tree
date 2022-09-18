@@ -41,11 +41,9 @@ class MerkleTree():
             return self.find_merkle_root_hash(concatenated_hashes)
             
     def hash_address_and_balance(address, balance):
-        hashed_address = MerkleTree.hash(address)
-        balance_as_string = str(balance)
-        hashed_balance = MerkleTree.hash(balance_as_string)
-        concatenation = hashed_address + hashed_balance
-        hashed_concatenation = MerkleTree.hash(concatenation)
+        balance = str(balance)
+        address = str(address)
+        hashed_concatenation = MerkleTree.hash(address + balance)
         return hashed_concatenation
     
     def main():
@@ -56,9 +54,9 @@ class MerkleTree():
             content = fp.readline()
             print(content)
 
-        addresses = [str]
-        balances = [int]
-        hashes = [str]
+        addresses = []
+        balances = []
+        hashes = []
 
         for i in range(len(addresses) - 1):
             hashed_concatenation = MerkleTree.hash_address_and_balance(addresses[i], balances[i])
