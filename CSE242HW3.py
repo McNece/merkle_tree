@@ -48,23 +48,28 @@ class MerkleTree():
     
     def main():
 
-        # need to read in the values from the text file for addresses and balances
-        txtFile = input('Enter text file with accounts:')
-        with open(txtFile, 'r') as fp:
-            content = fp.readline()
-            print(content)
-
         addresses = []
         balances = []
         hashes = []
 
-        for i in range(len(addresses) - 1):
-            hashed_concatenation = MerkleTree.hash_address_and_balance(addresses[i], balances[i])
-            hashes.append(hashed_concatenation)
+        txtFile = input('Enter text file with accounts:')
+        with open(txtFile, 'r') as fp:
+            for line in fp:
+                x, y = line.split(' ')
+                addresses.append(x)
+                balances.append(y)
 
-        hash = MerkleTree()
-        root_hash = hash.find_merkle_root_hash(hashes)
-        print ("Merkle tree root hash: %s"%(root_hash))
+        print(addresses)
+        print(balances)
+        
+
+        # for i in range(len(addresses) - 1):
+        #     hashed_concatenation = MerkleTree.hash_address_and_balance(addresses[i], balances[i])
+        #     hashes.append(hashed_concatenation)
+
+        # hash = MerkleTree()
+        # root_hash = hash.find_merkle_root_hash(hashes)
+        # print ("Merkle tree root hash: %s"%(root_hash))
 
 if __name__ == "__main__":
     MerkleTree.main()
