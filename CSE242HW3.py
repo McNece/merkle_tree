@@ -12,22 +12,29 @@ class MerkleTree():
 
     def find_merkle_root_hash(self, node_hashes):
 
-        nodes = []
+        # nodes = []
 
-        for h in node_hashes:
-            nodes.append(h)
+        # for h in node_hashes:
+            # nodes.append(h)
 
-        list_length = len(nodes)
-
-        # must handle case where there are an odd number of leaf nodes, where parent will just be the hash of the child for the last leaf node
+        list_length = len(node_hashes)
 
         concatenated_hashes = []
 
-        for x in [nodes[y:y+2] for y in range(0, list_length, 2)]:
-            concatenated_hashes.append(hash(x[0] + x[1]))
+        # handles the case in which there are an even number of leaf nodes
+        if list_length % 2 == 0:
+            for x in [node_hashes[y:y+2] for y in range(0, list_length, 2)]:
+                concatenated_hashes.append(hash(x[0] + x[1]))
+        # else, we must handle case in which there are an odd number of leaf nodes, where the parent's hash will just be the hash of the child for the last node
+        else:
+            for x in [node_hashes[y:y+2] for y in range(0, list_length - 1, 2)]:
+                concatenated_hashes.append(hash(x[0] + x[1]))
+                concatenated_hashes.append(node_hashes[list_length - 1])
         
+        # when there is only 1 hash in the array, we must have reached the root hash, so we return it
         if len(concatenated_hashes) == 1:
             return concatenated_hashes[0]
+        # else, use recursion to repeatedly hash the concatenation of the hashes of the left and right child nodes for each level of the Merkle tree
         else:
             return self.find_merkle_root_hash(concatenated_hashes)
             
